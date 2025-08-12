@@ -4,10 +4,15 @@
   "description": "Simple client-side form to make a BADC CSV form.",
   "main": "dist/badc-csv-form.min.js",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --minify --outfile=dist/badc-csv-form.min.js --global-name=FormToCSV",
-    "dev": "esbuild src/index.js --bundle --outfile=dist/badc-csv-form.js --global-name=FormToCSV --watch"
+    "build": "esbuild src/index.js --bundle --minify --outfile=dist/badc-csv-form.min.js --global-name=FormToCSV --loader:.css=text",
+    "dev": "esbuild src/index.js --bundle --outfile=dist/badc-csv-form.js --global-name=FormToCSV --loader:.css=text --watch"
   },
   "devDependencies": {
-    "esbuild": "^0.21.0"
-  }
+    "esbuild": "^0.21.0",
+    "rollup": "^4.46.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }
