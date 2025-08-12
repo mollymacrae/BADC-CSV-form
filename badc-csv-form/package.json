@@ -1,0 +1,16 @@
+{
+  "name": "badc-csv-form",
+  "version": "1.0.0",
+  "description": "Simple client-side form to make a BADC CSV form.",
+  "main": "dist/badc-csv-form.min.js",
+  "module": "dist/badc-csv-form.min.js",
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --minify --outfile=dist/badc-csv-form.min.js",
+    "dev": "esbuild src/index.js --bundle --outfile=dist/badc-csv-form.js --watch"
+  },
+  "keywords": ["form", "csv", "download", "browser", "client-side"],
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.21.0"
+  }
+}
