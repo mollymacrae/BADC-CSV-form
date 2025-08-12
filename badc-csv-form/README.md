@@ -1,17 +1,15 @@
 # BADC CSV Form
 
-Insert description of app here ...
+A simple client-side JavaScript app to create self-describing BADC-CSV headers by filling out a web form. Generates a CSV metadata header file ready for download.
 
 ## Project Structure
 
 badc-csv-form/
 ├─ src/
-│  ├─ index.js              # main entry point
-│  ├─ formUI.js             # code to render and handle the form
-│  ├─ csvExport.js          # CSV conversion + download logic
-├─ dist/
-│  ├─ badc-csv-form.min.js  # built & bundled output
-├─ package.json             # file to package up the JS app
+│  ├─ script.js             # javascript logic to render and validate form, genereate and download csv
+│  ├─ index.html            # html file to run the form
+│  ├─ styles.css            # styling for the form
+├─ package.json             # Project metadata and build scripts
 ├─ README.md                # README file with instructions
 ├─ .gitignore               # Things for git to ignore
 ├─ .npmignore               # Things for npm to ignore
@@ -27,27 +25,15 @@ Change into the directory:
 ```
 cd BADC-CSV-FORM/basc-csv-form
 ```
-Install the app:
-```
-npm install
-```
-Build the app:
-```
-npm run build
-```
-
-To run it you can just open the index.html file in your browser.
-For live reload for development, run:
-```
-npm run dev
-```
+Open `index.html` in a browser.
 
 To use it in a web page use:
 ```
-<script src="badc-csv-form.min.js"></script>
+<link rel="stylesheet" href="styles.css" />
+<script src="script.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    FormToCSV.initFormToCSV(document.body); 
+    FormToCSV.initFormToCSV(document.body);
   });
 </script>
 
