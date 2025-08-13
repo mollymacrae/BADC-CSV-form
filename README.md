@@ -4,16 +4,18 @@ A simple client-side JavaScript app to create self-describing BADC-CSV headers b
 
 ## Project Structure
 
+```
 badc-csv-form/
-├─ src/
-│  ├─ script.js             # javascript logic to render and validate form, genereate and download csv
-│  ├─ index.html            # html file to run the form
-│  ├─ styles.css            # styling for the form
-├─ package.json             # Project metadata and build scripts
+├─ basc-csv-form/
+|  ├─ src/
+│  |  ├─ script.js          # javascript logic to render and validate form, genereate and download csv
+│  |  ├─ index.html         # html file to run the form
+│  |  ├─ styles.css         # styling for the form
+|  ├─ package.json          # Project metadata and build scripts
+|  ├─ .gitignore            # Things for git to ignore
+|  ├─ .npmignore            # Things for npm to ignore
 ├─ README.md                # README file with instructions
-├─ .gitignore               # Things for git to ignore
-├─ .npmignore               # Things for npm to ignore
-
+```
 
 ## How to use
 
