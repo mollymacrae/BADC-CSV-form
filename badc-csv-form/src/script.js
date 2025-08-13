@@ -4,12 +4,24 @@
 function renderForm() {
   document.getElementById('app').innerHTML = `
     <h1>Create BADC-CSV header</h1>
+      <p>
+        Fill out this form to create a template to convert your CSV data to self-describing BADC-CSV format. <br>
+        This form assumes your data is organised in columns. <br>
+        - Add creators and contributors to the dataset <br>
+        - Add information to describe each column of the dataset (long_name, column number, units,standard_name (optional), type (optional))<br>
+        - Add any additional metadata or comments <br>
+        When you are ready click 'Submit' to download your BADC-CSV header.
+      </p>
+
     <form id="badc-csv-form" novalidate>
       <h2>Dataset title</h2>
       <label for="title">Title:</label>
       <input type="text" name="title" required />
 
       <h2>Creators and Contributors</h2>
+      <p>
+        Add individuals who created or contributed to the dataset and the columns that they contributed to (if all put 'G' for global)
+      </p>
       <div id="creators-container">
         <div class="creator-entry">
           <label>Role:</label>
@@ -34,8 +46,14 @@ function renderForm() {
       <button type="button" id="add-creator-btn">+ Add Person</button>
 
       <h2>Column metadata</h2>
+      <p>
+        Add column metadata here to describe each column of the CSV dataset
+      </p>
       <div id="variables-container">
         <div class="variable-entry">
+          <p>
+            Please provide a long name, column number and units, and optionally a standard name and type.
+          </p>
           <label>Long Name:</label>
           <input type="text" name="long_name" required placeholder="e.g. Air Temperature" />
 
@@ -55,6 +73,7 @@ function renderForm() {
       <button type="button" id="add-variable-btn">+ Add Column</button>
 
       <h2>Additional Metadata</h2>
+      <p>Add additional metadata here.</p>
       <div id="metadata-container">
         <div class="metadata-entry">
           <label>Metadata Type:</label>
@@ -124,9 +143,9 @@ function validateForm(form) {
 // Build CSV string (BADC header format)
 function generateBADCHeaderCSV(form) {
   const lines = [];
-
+  lines.push(`Conventions,G,BADC-CSV,1`);
   // Title line
-  lines.push(`# title: ${form.querySelector('input[name="title"]').value.trim()}`);
+  lines.push(`title,G,${form.querySelector('input[name="title"]').value.trim()}`);
 
   // Creators
   form.querySelectorAll('.creator-entry').forEach(entry => {
@@ -136,7 +155,7 @@ function generateBADCHeaderCSV(form) {
     const institution = entry.querySelector('input[name="institution"]').value.trim();
     const addInfo = entry.querySelector('input[name="additional_creator_info"]').value.trim();
 
-    lines.push(`# ${role}: ${name} (${institution}) [col: ${colNum}] ${addInfo}`);
+    lines.push(`${role},${colNum},${name},${institution},${addInfo}`);
   });
 
   // Variables (columns)
@@ -147,10 +166,9 @@ function generateBADCHeaderCSV(form) {
     const standardName = entry.querySelector('input[name="standard_name"]').value.trim();
     const type = entry.querySelector('input[name="type"]').value.trim();
 
-    let line = `# variable: ${longName}, col: ${colNum}, units: ${units}`;
-    if (standardName) line += `, standard_name: ${standardName}`;
-    if (type) line += `, type: ${type}`;
-    lines.push(line);
+    lines.push(`long_name,${colNum},${longName},${units}`);
+    if (standardName) lines.push(`standard_name,${colNum},${standardName}`);
+    if (type) lines.push(`type,${colNum},${type}`);
   });
 
   // Metadata
@@ -159,8 +177,13 @@ function generateBADCHeaderCSV(form) {
     const colNum = entry.querySelector('input[name="metadata_column_number"]').value.trim();
     const value = entry.querySelector('textarea[name="metadata_value"]').value.trim();
 
-    lines.push(`# metadata: ${type}, col: ${colNum}, value: ${value}`);
+    lines.push(`${type},${colNum},${value}`);
   });
+
+  lines.push(`data`);
+  lines.push(`[Paste data here]`);
+  lines.push(`end_data`);
+
 
   return lines.join('\n');
 }
