@@ -77,7 +77,7 @@ function renderForm() {
       <div id="metadata-container">
         <div class="metadata-entry">
           <label>Metadata Type:</label>
-          <select name="metadata_type">
+          <select name="metadata_type" onchange="updateExample(this)">
             <option value="comment">Comment</option>
             <option value="coordinate_variable">coordinate_variable</option>
             <option value="start_time">Start time</option>
@@ -201,6 +201,23 @@ function downloadCSV(content, filename = 'badc-header.csv') {
   URL.revokeObjectURL(url);
 }
 
+// Update example text
+function updateExample(select) {
+  const valueField = select.parentElement.querySelector('textarea');
+  const exampleMap = {
+    'coordinate_variable': 'Flag for coordinate variables, optionally a plotting axis suggestion and the name of the coord ref system, e.g. x',
+    'comment': 'Useful information about dataset, e.g. Data is Sahel mean (lon: 20°W-30°E, lat: 10°N-20°N)',
+    'start_time': 'Data start time, e.g. 06/05/2009',
+    'end_time': 'Data end time, e.g. 06/05/2019',
+    'rights': 'Statement about the ownership of the data and that they are made available under a specific licence, e.g. open government licence http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
+    'reference': 'Dataset references, e.g. Jury, M.; Turner, A.; Shonk, J. (2023): Chapter 10 of the Working Group I Contribution to the IPCC Sixth Assessment Report - data for Figure 10.11 (v20220622). NERC EDS Centre for Environmental Data Analysis, 17 May 2023. doi:10.5285/970847e5690c4f9e8c4ad455641bd558. https://dx.doi.org/10.5285/970847e5690c4f9e8c4ad455641bd558',
+    'last_revised_date': 'Date the data, file or metadata were last changed, e.g. 04/06/2010',
+    'history': 'Free text description of the file history, e.g.2009-05-11 : File created. 64278 data lines written to file.'
+  };
+  valueField.placeholder = exampleMap[select.value] || 'Enter value';
+}
+
+
 // Add event listeners for dynamic buttons and form submit
 function setupEventListeners() {
   const form = document.getElementById('badc-csv-form');
@@ -226,7 +243,14 @@ function setupEventListeners() {
     const container = document.getElementById('metadata-container');
     const clone = container.querySelector('.metadata-entry').cloneNode(true);
     clone.querySelectorAll('input, textarea').forEach(el => (el.value = ''));
-    container.appendChild(clone);
+
+    // Reset select and update placeholder
+    const select = clone.querySelector('select');
+    if (select) {
+      select.selectedIndex = 0;
+      updateExample(select);
+    }
+        container.appendChild(clone);
   });
 
   // On form submit
