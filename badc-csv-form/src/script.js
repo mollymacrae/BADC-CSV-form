@@ -11,6 +11,7 @@ function renderForm() {
         - Add information to describe each column of the dataset (long_name, column number, units,standard_name (optional), type (optional))<br>
         - Add any additional metadata or comments <br>
         When you are ready click 'Submit' to download your BADC-CSV header.
+        This form was designed for use by IPCC authors and contains the basic metadata fields needed to build a BADC-CSV header. More details can be addded to the header that is not included in this form in conformance with BADC-CSV conventions, however these are not compulsory.
       </p>
 
     <form id="badc-csv-form" novalidate>
